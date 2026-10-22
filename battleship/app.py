@@ -84,6 +84,12 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/how-to-play")
+def how_to_play():
+    """Explain how to join and play a game."""
+    return render_template("how_to_play.html")
+
+
 @app.route("/new", methods=["POST"])
 def new_game():
     """Create a game and open its waiting page."""

@@ -1,0 +1,204 @@
+:root {
+    color-scheme: light;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #183044;
+    background: #eef4f7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+}
+
+header {
+    background: #12354a;
+    color: #fff;
+}
+
+.header-content {
+    width: min(1100px, 100% - 2rem);
+    min-height: 4.5rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+header a {
+    color: inherit;
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    gap: 1.25rem;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    text-decoration: underline;
+}
+
+main {
+    width: min(1100px, 100% - 2rem);
+    margin: 2rem auto;
+    padding: clamp(1rem, 4vw, 2rem);
+    background: #fff;
+    border: 1px solid #d5e1e8;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem rgb(18 53 74 / 8%);
+}
+
+h2,
+h3 {
+    color: #12354a;
+}
+
+a {
+    color: #12618a;
+}
+
+button {
+    border: 0;
+    border-radius: 0.35rem;
+    background: #12618a;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0c496a;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid #edaa32;
+    outline-offset: 2px;
+}
+
+main > form button,
+#copy-join-link {
+    padding: 0.65rem 1rem;
+}
+
+.boards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.boards section {
+    min-width: 0;
+}
+
+.boards table {
+    width: 100%;
+    max-width: 420px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background: #dff2f8;
+}
+
+.boards td {
+    width: 10%;
+    height: clamp(2rem, 6vw, 2.6rem);
+    padding: 0;
+    border: 1px solid #8cb2c2;
+    text-align: center;
+    font-weight: 700;
+}
+
+.cell.ship {
+    background: #78909c;
+    color: #fff;
+}
+
+.cell.hit {
+    background: #d95050;
+    color: #fff;
+}
+
+.cell.miss {
+    background: #c8e5ef;
+    color: #244a5c;
+}
+
+.cell form {
+    width: 100%;
+    height: 100%;
+}
+
+.cell button {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: transparent;
+}
+
+.cell button:hover,
+.cell button:focus-visible {
+    background: #9bd4e5;
+    color: #12354a;
+}
+
+.game-over {
+    padding: 1rem 1.25rem;
+    border-left: 0.35rem solid #2e8b57;
+    border-radius: 0.35rem;
+    background: #e7f5ec;
+}
+
+[role="alert"] {
+    color: #9d2525;
+    font-weight: 700;
+}
+
+[role="status"] {
+    font-weight: 700;
+}
+
+@media (max-width: 760px) {
+    .boards {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .boards table {
+        max-width: 480px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 0.75rem 0;
+    }
+
+    nav {
+        gap: 1rem;
+    }
+
+    main {
+        margin: 1rem auto;
+    }
+
+    .boards td {
+        height: 1.9rem;
+    }
+}

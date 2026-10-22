@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Battleship - How to play{% endblock %}
+
+{% block content %}
+    <h2>How to play</h2>
+    <ol>
+        <li>Select <strong>New game</strong> on the home page.</li>
+        <li>Copy the join link and share it with the other player.</li>
+        <li>Wait for the other player to open the link. The game will start automatically.</li>
+        <li>When it is your turn, choose a square on the opponent's board to fire.</li>
+        <li>Players alternate turns. X marks a hit and o marks a miss.</li>
+        <li>Sink every opponent ship to win.</li>
+    </ol>
+
+    <h3>Fleet</h3>
+    <p>Each player has one Carrier (5 cells), Battleship (4), Cruiser (3), Submarine (3), and Destroyer (2). Ships are placed randomly.</p>
+
+    <p><a href="{{ url_for('home') }}">Back to home</a></p>
+{% endblock %}
