@@ -5,7 +5,13 @@
 {% block content %}
     <h2>Battleship game</h2>
 
-    {% if status == "waiting" %}
+    {% if status == "finished" %}
+        <section class="game-over" role="status">
+            <h3>Game over</h3>
+            <p>{{ game_over_message }}</p>
+            <a href="{{ url_for('home') }}">Play again</a>
+        </section>
+    {% elif status == "waiting" %}
         <p>{{ turn_message }}</p>
         {% if token == creator_token %}
             <p>Share this link with the other player to join:</p>

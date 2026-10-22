@@ -109,10 +109,21 @@ def game_page(game_id, token):
 
     if game.status == "waiting":
         turn_message = "Waiting for the other player to join."
+    elif game.status == "finished":
+        turn_message = None
     elif game.turn == token:
         turn_message = "It is your turn."
     else:
         turn_message = "Waiting for the opponent's move."
+
+    if game.status == "finished":
+        game_over_message = (
+            "You win!"
+            if game.winner == token
+            else "You lost. Your opponent won."
+        )
+    else:
+        game_over_message = None
 
     shot_result = request.args.get("shot_result")
     sunk_ship = request.args.get("sunk_ship")
@@ -131,6 +142,7 @@ def game_page(game_id, token):
         "game.html",
         status=game.status,
         turn_message=turn_message,
+        game_over_message=game_over_message,
         can_fire=game.status == "playing" and game.turn == token,
         shot_message=shot_message,
         fire_error=fire_error,
