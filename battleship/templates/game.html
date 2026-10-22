@@ -21,6 +21,12 @@
         <p>{{ turn_message }}</p>
     {% endif %}
 
+    {% if shot_message %}
+        <p role="status">{{ shot_message }}</p>
+    {% elif fire_error %}
+        <p role="alert">{{ fire_error }}</p>
+    {% endif %}
+
     <div class="boards">
         <section>
             <h3>Your board</h3>
@@ -41,10 +47,21 @@
             <h3>Opponent's board</h3>
             <table aria-label="Opponent's board">
                 {% for row in enemy_board %}
+                    {% set row_index = loop.index0 %}
                     <tr>
                         {% for cell in row %}
                             <td class="cell {{ cell }}">
-                                {% if cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
+                                {% if can_fire and cell == "empty" %}
+                                    <form action="{{ url_for('fire_shot', game_id=game_id, token=token) }}" method="post">
+                                        <input type="hidden" name="row" value="{{ row_index }}">
+                                        <input type="hidden" name="col" value="{{ loop.index0 }}">
+                                        <button type="submit" aria-label="Fire at row {{ row_index + 1 }}, column {{ loop.index }}">Fire</button>
+                                    </form>
+                                {% elif cell == "hit" %}
+                                    X
+                                {% elif cell == "miss" %}
+                                    o
+                                {% endif %}
                             </td>
                         {% endfor %}
                     </tr>
