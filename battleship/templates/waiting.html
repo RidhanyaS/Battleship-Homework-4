@@ -2,12 +2,6 @@
 
 {% block title %}Battleship - {{ title }}{% endblock %}
 
-{% block extra_head %}
-    {% if game_status == "waiting" %}
-        <meta http-equiv="refresh" content="2">
-    {% endif %}
-{% endblock %}
-
 {% block content %}
     <h2>{{ title }}</h2>
     <p>{{ message }}</p>

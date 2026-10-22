@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Battleship - Game{% endblock %}
+
+{% block content %}
+    <h2>Battleship game</h2>
+
+    {% if status == "waiting" %}
+        <p>{{ turn_message }}</p>
+        {% if token == creator_token %}
+            <p>Share this link with the other player to join:</p>
+            <p>
+                <a id="join-link" href="{{ url_for('join_game', game_id=game_id, _external=True) }}">
+                    {{ url_for('join_game', game_id=game_id, _external=True) }}
+                </a>
+            </p>
+            <button id="copy-join-link" type="button">Copy join link</button>
+            <p id="copy-message" aria-live="polite"></p>
+        {% endif %}
+    {% else %}
+        <p>{{ turn_message }}</p>
+    {% endif %}
+
+    <div class="boards">
+        <section>
+            <h3>Your board</h3>
+            <table aria-label="Your board">
+                {% for row in own_board %}
+                    <tr>
+                        {% for cell in row %}
+                            <td class="cell {{ cell }}">
+                                {% if cell == "ship" %}S{% elif cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </section>
+
+        <section>
+            <h3>Opponent's board</h3>
+            <table aria-label="Opponent's board">
+                {% for row in enemy_board %}
+                    <tr>
+                        {% for cell in row %}
+                            <td class="cell {{ cell }}">
+                                {% if cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <p>Shots fired: X is a hit; o is a miss.</p>
+        </section>
+    </div>
+
+    {% if token == creator_token and status == "waiting" %}
+        <script>
+            const joinLink = document.getElementById("join-link");
+            const copyMessage = document.getElementById("copy-message");
+
+            document.getElementById("copy-join-link").addEventListener("click", async () => {
+                try {
+                    await navigator.clipboard.writeText(joinLink.href);
+                    copyMessage.textContent = "Join link copied.";
+                } catch (error) {
+                    copyMessage.textContent = "Copy failed. Select and copy the link above.";
+                }
+            });
+        </script>
+    {% endif %}
+
+    {% if is_waiting %}
+        <script>
+            const initialStatus = {{ status|tojson }};
+            const statusUrl = {{ url_for("game_status", game_id=game_id, token=token)|tojson }};
+
+            async function checkForGameUpdate() {
+                try {
+                    const response = await fetch(statusUrl, { cache: "no-store" });
+                    if (!response.ok) {
+                        throw new Error("Could not check game status.");
+                    }
+
+                    const gameState = await response.json();
+                    const gameStarted = initialStatus === "waiting"
+                        && gameState.status !== "waiting";
+                    const turnStarted = initialStatus === "playing"
+                        && (gameState.your_turn || gameState.status === "finished");
+
+                    if (gameStarted || turnStarted) {
+                        window.location.reload();
+                        return;
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+
+                window.setTimeout(checkForGameUpdate, 2000);
+            }
+
+            window.setTimeout(checkForGameUpdate, 2000);
+        </script>
+    {% endif %}
+{% endblock %}
