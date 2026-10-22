@@ -1,8 +1,8 @@
 :root {
     color-scheme: light;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #183044;
-    background: #eef4f7;
+    font-family: "Nunito", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+    color: #563849;
+    background: #fff0f5;
 }
 
 * {
@@ -15,7 +15,7 @@ body {
 }
 
 header {
-    background: #12354a;
+    background: #ff69b4;
     color: #fff;
 }
 
@@ -53,25 +53,25 @@ main {
     width: min(1100px, 100% - 2rem);
     margin: 2rem auto;
     padding: clamp(1rem, 4vw, 2rem);
-    background: #fff;
-    border: 1px solid #d5e1e8;
-    border-radius: 0.75rem;
-    box-shadow: 0 0.5rem 1.5rem rgb(18 53 74 / 8%);
+    background: #fffafd;
+    border: 1px solid #f4bfd8;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgb(177 69 123 / 10%);
 }
 
 h2,
 h3 {
-    color: #12354a;
+    color: #d94f91;
 }
 
 a {
-    color: #12618a;
+    color: #c43c82;
 }
 
 button {
     border: 0;
-    border-radius: 0.35rem;
-    background: #12618a;
+    border-radius: 0.65rem;
+    background: #ff69b4;
     color: #fff;
     font: inherit;
     font-weight: 600;
@@ -79,12 +79,12 @@ button {
 }
 
 button:hover {
-    background: #0c496a;
+    background: #e6509a;
 }
 
 button:focus-visible,
 a:focus-visible {
-    outline: 3px solid #edaa32;
+    outline: 3px solid #b73378;
     outline-offset: 2px;
 }
 
@@ -108,6 +108,7 @@ main > form button,
 .boards h3 {
     margin-top: 0;
     text-align: center;
+    font-size: 1.25rem;
 }
 
 .board-grid {
@@ -116,13 +117,17 @@ main > form button,
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(11, minmax(0, 1fr));
+    overflow: hidden;
+    border: 2px solid #ff69b4;
+    border-radius: 0.75rem;
+    background: #fffafd;
 }
 
 .grid-cell {
     min-width: 0;
     aspect-ratio: 1;
     padding: 0;
-    border: 1px solid #7da8bb;
+    border: 1px solid #f2b4d1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,28 +136,29 @@ main > form button,
 }
 
 .grid-label {
-    border-color: transparent;
-    color: #38566a;
+    border-color: #f8d4e4;
+    background: #fffafd;
+    color: #9c5277;
     font-size: clamp(0.6rem, 1.3vw, 0.85rem);
 }
 
 .board-cell {
-    background: #b9e3f1;
+    background: #ffe2ef;
 }
 
 .board-cell.ship {
-    background: #78909c;
+    background: #b784a0;
     color: #fff;
 }
 
 .board-cell.hit {
-    background: #d95050;
+    background: #d6336c;
     color: #fff;
 }
 
 .board-cell.miss {
-    background: #5aa9d1;
-    color: #244a5c;
+    background: #e5dcf5;
+    color: #654d7a;
 }
 
 .board-cell form {
@@ -173,7 +179,7 @@ main > form button,
 
 .fire-button:hover,
 .fire-button:focus-visible {
-    background: #84c9e1;
+    background: #ffacd1;
 }
 
 .status-banner {
@@ -183,9 +189,10 @@ main > form button,
     gap: 0.5rem 1.5rem;
     margin: 1rem 0;
     padding: 0.85rem 1rem;
-    border-left: 0.35rem solid #12618a;
-    border-radius: 0.35rem;
-    background: #e5f3f8;
+    border: 1px solid #f2a8cb;
+    border-left: 0.4rem solid #ff69b4;
+    border-radius: 0.65rem;
+    background: #fff0f7;
 }
 
 .status-banner p {
@@ -193,19 +200,20 @@ main > form button,
 }
 
 .status-banner .shot-message {
-    color: #12354a;
+    color: #873c67;
 }
 
 .status-banner .fire-error {
-    color: #9d2525;
+    color: #b4234f;
     font-weight: 700;
 }
 
 .join-instructions {
     margin-top: 1rem;
     padding: 1rem;
-    border-radius: 0.5rem;
-    background: #f1f7f9;
+    border: 1px solid #f4c7dc;
+    border-radius: 0.75rem;
+    background: #fff5f9;
 }
 
 .join-instructions p {
@@ -217,10 +225,50 @@ main > form button,
 }
 
 .game-over {
-    padding: 1rem 1.25rem;
-    border-left: 0.35rem solid #2e8b57;
-    border-radius: 0.35rem;
-    background: #e7f5ec;
+    margin: 1rem 0;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    color: #fff;
+    text-align: center;
+}
+
+.game-won {
+    background: #2e9e5b;
+}
+
+.game-lost {
+    background: #d62839;
+}
+
+.game-over-message {
+    margin: 0;
+    color: inherit;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.play-again {
+    margin: 1rem 0 2rem;
+    text-align: center;
+}
+
+.play-again-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid #e6509a;
+    border-radius: 0.75rem;
+    background: #ff69b4;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 0.25rem 0.65rem rgb(177 69 123 / 20%);
+}
+
+.play-again-button:hover {
+    background: #e6509a;
+    color: #fff;
 }
 
 [role="status"] {
@@ -251,5 +299,9 @@ main > form button,
 
     main {
         margin: 1rem auto;
+    }
+
+    .game-over-message {
+        font-size: 2rem;
     }
 }

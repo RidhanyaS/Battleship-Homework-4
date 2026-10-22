@@ -6,11 +6,18 @@
     <h2>Battleship game</h2>
 
     {% if status == "finished" %}
-        <section class="game-over">
-            <h3>Game over</h3>
-            <p>{{ game_over_message }}</p>
-            <a href="{{ url_for('home') }}">Play again</a>
-        </section>
+        {% if game_over_message == "You win!" %}
+            <section class="game-over game-won" role="status">
+                <p class="game-over-message">You won!</p>
+            </section>
+        {% else %}
+            <section class="game-over game-lost" role="status">
+                <p class="game-over-message">You lost</p>
+            </section>
+        {% endif %}
+        <p class="play-again">
+            <a class="play-again-button" href="{{ url_for('home') }}">Play again</a>
+        </p>
     {% endif %}
 
     {% if turn_message or shot_message or fire_error %}
@@ -52,7 +59,7 @@
                     <div class="grid-cell grid-label" role="rowheader">{{ row_index + 1 }}</div>
                     {% for cell in row %}
                         <div class="grid-cell board-cell {{ cell }}" role="gridcell" aria-label="Row {{ row_index + 1 }}, column {{ loop.index }}">
-                            {% if cell == "ship" %}S{% elif cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
+                            {% if cell == "ship" %}S{% elif cell == "hit" %}X{% elif cell == "miss" %}•{% endif %}
                         </div>
                     {% endfor %}
                 {% endfor %}
@@ -80,13 +87,13 @@
                             {% elif cell == "hit" %}
                                 X
                             {% elif cell == "miss" %}
-                                o
+                                •
                             {% endif %}
                         </div>
                     {% endfor %}
                 {% endfor %}
             </div>
-            <p>Shots fired: X is a hit; o is a miss.</p>
+            <p>Shots fired: X is a hit; • is a miss.</p>
         </section>
     </div>
 
