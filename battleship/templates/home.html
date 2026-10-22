@@ -6,7 +6,7 @@
     <h2>Play Battleship with a friend</h2>
     <p>Create a game and share its join link with another player.</p>
 
-    <form action="/new" method="post">
+    <form action="{{ url_for('new_game') }}" method="post">
         <button type="submit">New game</button>
     </form>
 
