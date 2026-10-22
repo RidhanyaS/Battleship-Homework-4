@@ -6,73 +6,86 @@
     <h2>Battleship game</h2>
 
     {% if status == "finished" %}
-        <section class="game-over" role="status">
+        <section class="game-over">
             <h3>Game over</h3>
             <p>{{ game_over_message }}</p>
             <a href="{{ url_for('home') }}">Play again</a>
         </section>
-    {% elif status == "waiting" %}
-        <p>{{ turn_message }}</p>
-        {% if token == creator_token %}
-            <p>Share this link with the other player to join:</p>
-            <p>
+    {% endif %}
+
+    {% if turn_message or shot_message or fire_error %}
+        <section class="status-banner" aria-live="polite">
+            {% if turn_message %}
+                <p class="turn-message">{{ turn_message }}</p>
+            {% endif %}
+            {% if shot_message %}
+                <p class="shot-message">{{ shot_message }}</p>
+            {% elif fire_error %}
+                <p class="fire-error">{{ fire_error }}</p>
+            {% endif %}
+        </section>
+    {% endif %}
+
+    {% if status == "waiting" and token == creator_token %}
+        <section class="join-instructions">
+            <p>Share this link with the other player:</p>
+            <p class="join-link-wrap">
                 <a id="join-link" href="{{ url_for('join_game', game_id=game_id, _external=True) }}">
                     {{ url_for('join_game', game_id=game_id, _external=True) }}
                 </a>
             </p>
             <button id="copy-join-link" type="button">Copy join link</button>
             <p id="copy-message" aria-live="polite"></p>
-        {% endif %}
-    {% else %}
-        <p>{{ turn_message }}</p>
-    {% endif %}
-
-    {% if shot_message %}
-        <p role="status">{{ shot_message }}</p>
-    {% elif fire_error %}
-        <p role="alert">{{ fire_error }}</p>
+        </section>
     {% endif %}
 
     <div class="boards">
         <section>
             <h3>Your board</h3>
-            <table aria-label="Your board">
-                {% for row in own_board %}
-                    <tr>
-                        {% for cell in row %}
-                            <td class="cell {{ cell }}">
-                                {% if cell == "ship" %}S{% elif cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
+            <div class="board-grid" role="grid" aria-label="Your board">
+                <div class="grid-cell grid-label" role="columnheader" aria-hidden="true"></div>
+                {% for column in "ABCDEFGHIJ" %}
+                    <div class="grid-cell grid-label" role="columnheader">{{ column }}</div>
                 {% endfor %}
-            </table>
+                {% for row in own_board %}
+                    {% set row_index = loop.index0 %}
+                    <div class="grid-cell grid-label" role="rowheader">{{ row_index + 1 }}</div>
+                    {% for cell in row %}
+                        <div class="grid-cell board-cell {{ cell }}" role="gridcell" aria-label="Row {{ row_index + 1 }}, column {{ loop.index }}">
+                            {% if cell == "ship" %}S{% elif cell == "hit" %}X{% elif cell == "miss" %}o{% endif %}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
         </section>
 
         <section>
             <h3>Opponent's board</h3>
-            <table aria-label="Opponent's board">
+            <div class="board-grid" role="grid" aria-label="Opponent's board">
+                <div class="grid-cell grid-label" role="columnheader" aria-hidden="true"></div>
+                {% for column in "ABCDEFGHIJ" %}
+                    <div class="grid-cell grid-label" role="columnheader">{{ column }}</div>
+                {% endfor %}
                 {% for row in enemy_board %}
                     {% set row_index = loop.index0 %}
-                    <tr>
-                        {% for cell in row %}
-                            <td class="cell {{ cell }}">
-                                {% if can_fire and cell == "empty" %}
-                                    <form action="{{ url_for('fire_shot', game_id=game_id, token=token) }}" method="post">
-                                        <input type="hidden" name="row" value="{{ row_index }}">
-                                        <input type="hidden" name="col" value="{{ loop.index0 }}">
-                                        <button type="submit" aria-label="Fire at row {{ row_index + 1 }}, column {{ loop.index }}">Fire</button>
-                                    </form>
-                                {% elif cell == "hit" %}
-                                    X
-                                {% elif cell == "miss" %}
-                                    o
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
+                    <div class="grid-cell grid-label" role="rowheader">{{ row_index + 1 }}</div>
+                    {% for cell in row %}
+                        <div class="grid-cell board-cell {{ cell }}" role="gridcell" aria-label="Row {{ row_index + 1 }}, column {{ loop.index }}{% if cell == 'hit' %}, hit{% elif cell == 'miss' %}, miss{% endif %}">
+                            {% if can_fire and cell == "empty" %}
+                                <form action="{{ url_for('fire_shot', game_id=game_id, token=token) }}" method="post">
+                                    <input type="hidden" name="row" value="{{ row_index }}">
+                                    <input type="hidden" name="col" value="{{ loop.index0 }}">
+                                    <button class="fire-button" type="submit" aria-label="Fire at row {{ row_index + 1 }}, column {{ loop.index }}">Fire</button>
+                                </form>
+                            {% elif cell == "hit" %}
+                                X
+                            {% elif cell == "miss" %}
+                                o
+                            {% endif %}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            </table>
+            </div>
             <p>Shots fired: X is a hit; o is a miss.</p>
         </section>
     </div>

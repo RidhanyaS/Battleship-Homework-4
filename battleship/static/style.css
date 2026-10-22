@@ -96,7 +96,8 @@ main > form button,
 .boards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2rem);
     margin-top: 2rem;
 }
 
@@ -104,56 +105,115 @@ main > form button,
     min-width: 0;
 }
 
-.boards table {
-    width: 100%;
-    max-width: 420px;
-    table-layout: fixed;
-    border-collapse: collapse;
-    background: #dff2f8;
+.boards h3 {
+    margin-top: 0;
+    text-align: center;
 }
 
-.boards td {
-    width: 10%;
-    height: clamp(2rem, 6vw, 2.6rem);
+.board-grid {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-cell {
+    min-width: 0;
+    aspect-ratio: 1;
     padding: 0;
-    border: 1px solid #8cb2c2;
+    border: 1px solid #7da8bb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-weight: 700;
 }
 
-.cell.ship {
+.grid-label {
+    border-color: transparent;
+    color: #38566a;
+    font-size: clamp(0.6rem, 1.3vw, 0.85rem);
+}
+
+.board-cell {
+    background: #b9e3f1;
+}
+
+.board-cell.ship {
     background: #78909c;
     color: #fff;
 }
 
-.cell.hit {
+.board-cell.hit {
     background: #d95050;
     color: #fff;
 }
 
-.cell.miss {
-    background: #c8e5ef;
+.board-cell.miss {
+    background: #5aa9d1;
     color: #244a5c;
 }
 
-.cell form {
+.board-cell form {
     width: 100%;
     height: 100%;
 }
 
-.cell button {
+.fire-button {
     width: 100%;
     height: 100%;
     padding: 0;
+    border: 0;
     border-radius: 0;
     background: transparent;
     color: transparent;
+    font-size: 0;
 }
 
-.cell button:hover,
-.cell button:focus-visible {
-    background: #9bd4e5;
+.fire-button:hover,
+.fire-button:focus-visible {
+    background: #84c9e1;
+}
+
+.status-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin: 1rem 0;
+    padding: 0.85rem 1rem;
+    border-left: 0.35rem solid #12618a;
+    border-radius: 0.35rem;
+    background: #e5f3f8;
+}
+
+.status-banner p {
+    margin: 0;
+}
+
+.status-banner .shot-message {
     color: #12354a;
+}
+
+.status-banner .fire-error {
+    color: #9d2525;
+    font-weight: 700;
+}
+
+.join-instructions {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: #f1f7f9;
+}
+
+.join-instructions p {
+    margin-top: 0;
+}
+
+.join-link-wrap {
+    overflow-wrap: anywhere;
 }
 
 .game-over {
@@ -163,23 +223,18 @@ main > form button,
     background: #e7f5ec;
 }
 
-[role="alert"] {
-    color: #9d2525;
-    font-weight: 700;
-}
-
 [role="status"] {
     font-weight: 700;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 820px) {
     .boards {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
 
-    .boards table {
-        max-width: 480px;
+    .board-grid {
+        max-width: 520px;
     }
 }
 
@@ -196,9 +251,5 @@ main > form button,
 
     main {
         margin: 1rem auto;
-    }
-
-    .boards td {
-        height: 1.9rem;
     }
 }
