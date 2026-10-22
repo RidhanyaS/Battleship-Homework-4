@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Battleship - Home{% endblock %}
+
+{% block content %}
+    <h2>Play Battleship with a friend</h2>
+    <p>Create a game and share its join link with another player.</p>
+
+    <form action="/new" method="post">
+        <button type="submit">New game</button>
+    </form>
+
+    <h2>Brief rules</h2>
+    <ul>
+        <li>Each player has a hidden fleet on a 10 by 10 board.</li>
+        <li>Take turns choosing one square on your opponent's board.</li>
+        <li>Sink all five of your opponent's ships to win.</li>
+    </ul>
+{% endblock %}
