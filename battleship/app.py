@@ -28,7 +28,6 @@ FIRE_ERROR_MESSAGES = {
     "already_shot": "You have already fired at that cell.",
     "invalid_coordinates": "The row and column must be numbers.",
     "out_of_range": "Choose a cell on the 10 by 10 board.",
-    "invalid_shot": "That shot could not be fired.",
 }
 
 def board_view(board: Optional[Board], show_ships: bool) -> List[List[str]]:
@@ -51,6 +50,32 @@ def board_view(board: Optional[Board], show_ships: bool) -> List[List[str]]:
                 cells.append("empty")
         rows.append(cells)
     return rows
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """Show a friendly page for missing games, invalid tokens, and routes."""
+    return (
+        render_template(
+            "error.html",
+            title="Page not found",
+            message="We couldn't find that game or page. Check the link and try again.",
+        ),
+        404,
+    )
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    """Show a friendly message without exposing server details."""
+    return (
+        render_template(
+            "error.html",
+            title="Something went wrong",
+            message="The server couldn't complete that request. Please try again.",
+        ),
+        500,
+    )
 
 
 @app.route("/")
